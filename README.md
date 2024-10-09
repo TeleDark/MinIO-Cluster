@@ -125,10 +125,10 @@ By setting this up, your SSL certificates will be automatically renewed and Ngin
 
 1. **For HTTP setup**: Use the following command to start the Docker containers:
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 2. **For HTTPS setup**: Run the following command to start the Docker containers:
 ```
-docker-compose -f docker-compose-https.yaml up -d
+docker compose -f docker-compose-https.yaml up -d
 ```
