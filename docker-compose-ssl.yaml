@@ -1,0 +1,23 @@
+# for renew ssl
+# docker compose -f docker-compose-ssl.yaml run --rm certbot renew 
+
+services:
+  nginx:
+    image: nginx:1.27.1-alpine
+    container_name: nginx-ssl
+    hostname: nignx
+    volumes:
+      - ./certbot/nginx/:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+    ports:
+      - "80:80"
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot-ssl
+    command: ["certonly", "--webroot", "-w", "/var/www/certbot/", "-d", "${DOMAIN}", "--text", "--agree-tos", "--email", "${EMAIL}", "--verbose", "--keep-until-expiring"]
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/CA/:/etc/letsencrypt/:rw
+    depends_on:
+      - nginx
